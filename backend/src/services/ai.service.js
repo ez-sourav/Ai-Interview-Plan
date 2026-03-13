@@ -109,12 +109,11 @@ ${jobDescription}
         const report = interviewReportSchema.parse(
             JSON.parse(jsonMatch[0])
         );
-
-        console.log("\nInterview Report:\n");
-        console.log(JSON.stringify(report, null, 2));
+        return report;
 
     } catch (error) {
         console.error("Interview report generation failed:", error.message);
+        throw error;
     }
 }
 
