@@ -58,36 +58,40 @@ const interviewReportSchema = z.object({
 async function generateInterviewReport({ resume, selfDescription, jobDescription }) {
     try {
         const prompt = `
-You are a senior technical interviewer.
+                You are a senior technical interviewer.
 
-Generate an interview report.
+                Generate an interview report.
 
-Return ONLY valid JSON.
+                Return ONLY valid JSON.
 
-Do NOT include:
-- explanations
-- text before JSON
-- text after JSON
+                Do NOT include:
+                - explanations
+                - text before JSON
+                - text after JSON
 
-Return JSON exactly in this format:
+                Return JSON exactly in this format:
 
-{
- "matchScore": number,
- "technicalQuestions": [{ "question": "", "intention": "", "answer": "" }],
- "behavioralQuestions": [{ "question": "", "intention": "", "answer": "" }],
- "skillGaps": [{ "skill": "", "severity": "low | medium | high" }],
- "preparationPlan": [{ "day": number, "focus": "", "tasks": [] }]
-}
+                {
+                "title": "string (job title)",
+                "matchScore": number,
+                "technicalQuestions": [{ "question": "", "intention": "", "answer": "" }],
+                "behavioralQuestions": [{ "question": "", "intention": "", "answer": "" }],
+                "skillGaps": [{ "skill": "", "severity": "low | medium | high" }],
+                "preparationPlan": [{ "day": number, "focus": "", "tasks": [] }]
+                }
 
-Resume:
-${resume}
+                IMPORTANT:
+                - "title" must be extracted from the job description.
 
-Self Description:
-${selfDescription}
+                Resume:
+                ${resume}
 
-Job Description:
-${jobDescription}
-`;
+                Self Description:
+                ${selfDescription}
+
+                Job Description:
+                ${jobDescription}
+                `;
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
             contents: prompt,
