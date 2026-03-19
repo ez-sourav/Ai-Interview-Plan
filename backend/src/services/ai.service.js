@@ -6,14 +6,6 @@ const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_GENAI_API_KEY
 })
 
-async function invokeGeminiAi() {
-    const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: "Hello GEMINI! Tell me a JavaScript joke."
-    })
-
-    console.log(response.text)
-}
 
 
 const interviewReportSchema = z.object({
@@ -123,7 +115,9 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
     }
 }
 
+    
+
 module.exports = {
-    invokeGeminiAi,
+   
     generateInterviewReport
 }
