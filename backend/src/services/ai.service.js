@@ -1,6 +1,7 @@
 const { GoogleGenAI } = require('@google/genai')
 const { z } = require('zod')
 const { zodToJsonSchema } = require("zod-to-json-schema")
+const puppeteer = require('puppeteer')
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_GENAI_API_KEY
@@ -85,7 +86,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
                 ${jobDescription}
                 `;
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-3-flash-preview",
             contents: prompt,
             config: {
                 temperature: 0.2,
@@ -115,9 +116,110 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
     }
 }
 
-    
+async function generatePdfFromHtml(htmlContent) {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage();
+    await page.setContent(htmlContent, { waitUntil: "networkidle0" })
+
+    const pdfBuffer = await page.pdf({
+        format: "A4", margin: {
+            top: "20mm",
+            bottom: "20mm",
+            left: "15mm",
+            right: "15mm"
+        }
+    })
+
+    await browser.close()
+
+    return pdfBuffer
+}
+
+async function generateResumePdf({resume,selfDescription,jobDescription}){
+    const resumePdfSchema = z.object({
+         html: z.string().describe("The HTML content of the resume which can be converted to PDF using any library like puppeteer")
+    })
+
+    const prompt = `
+You are an expert resume writer and ATS optimization system.
+
+INPUT:
+- Resume: ${resume}
+- Self Description: ${selfDescription}
+- Job Description: ${jobDescription}
+
+TASK:
+Generate a highly optimized, ATS-friendly, professional resume tailored specifically for the given job description.
+
+STRICT RULES:
+
+1. OUTPUT FORMAT:
+- Return ONLY valid JSON
+- Do NOT include any explanation or extra text
+- Format:
+{
+  "html": "<complete HTML here>"
+}
+
+2. HTML STRUCTURE:
+- Use clean semantic HTML: <html>, <head>, <body>
+- Use inline CSS only (important for PDF tools like Puppeteer)
+- Keep design minimal, professional, and readable
+- Use proper sections:
+  - Header (Name, Contact, Links)
+  - Summary
+  - Skills
+  - Projects / Experience
+  - Education
+
+3. ATS OPTIMIZATION:
+- Extract important keywords from job description
+- Ensure keywords are naturally included
+- Avoid keyword stuffing
+- Use standard headings (no fancy names)
+
+4. CONTENT RULES:
+- Use strong action verbs (Built, Developed, Optimized, Designed)
+- Every project bullet must include measurable impact when possible (%, users, performance)
+- Prioritize relevant experience based on job description
+- Remove or minimize irrelevant content
+
+5. TONE:
+- Human-like, natural, professional
+- No generic AI phrases
+- No repetition
+
+6. LENGTH:
+- Keep resume concise (fit within 1–2 pages)
+
+7. FORMATTING:
+- Use bullet points for readability
+- Highlight important keywords using <strong>
+- Keep spacing consistent
+
+8. IMPORTANT:
+- Do NOT hallucinate fake experience
+- Use only provided data, but optimize it
+
+Generate the final result now.
+`;
+    const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: prompt,
+        config: {
+            responseMimeType: "application/json",
+            responseSchema: zodToJsonSchema(resumePdfSchema),
+        }
+    })
+
+     const jsonContent = JSON.parse(response.text)
+
+    const pdfBuffer = await generatePdfFromHtml(jsonContent.html)
+
+    return pdfBuffer
+}    
 
 module.exports = {
-   
-    generateInterviewReport
+    generateInterviewReport,
+    generateResumePdf
 }
