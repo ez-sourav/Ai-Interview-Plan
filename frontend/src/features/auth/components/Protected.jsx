@@ -1,12 +1,11 @@
-import {  Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { LoadingScreen } from "./LoadingScreen";
 
 export const Protected = ({children}) => {
     const {loading,user} = useAuth();
     if(loading){
-        return(
-            <main><h1>loading...</h1></main>
-        )
+        return <LoadingScreen message="Authenticating..." subMessage="Please wait" />
     }
 
     if(!user){
