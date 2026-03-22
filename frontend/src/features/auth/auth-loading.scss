@@ -1,0 +1,52 @@
+// ── Theme Variables ───────────────────────────────────────────────────────────
+$bg-page:        #0b0b0c;
+$bg-card:        #161617;
+$text-primary:   #f9fafb;
+$text-muted:     #9ca3af;
+$accent:         #FF7F11;
+$font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+// ── Keyframes ─────────────────────────────────────────────────────────────────
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ── Loading Screen ────────────────────────────────────────────────────────────
+.loading-screen {
+  width: 100%;
+  min-height: 100vh;
+  background-color: $bg-page;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-stack;
+
+  .loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+    padding: 2rem;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $text-primary;
+      max-width: 360px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    p {
+      color: $text-muted;
+      font-size: 0.875rem;
+      margin: 0;
+    }
+  }
+
+  .spinner-icon {
+    color: $accent;
+    animation: spin 0.9s linear infinite;
+  }
+}
