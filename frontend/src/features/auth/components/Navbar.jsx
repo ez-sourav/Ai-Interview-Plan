@@ -27,7 +27,7 @@ const Navbar = () => {
         {/* Left - Logo */}
         <div className="navbar__left">
           <h2 onClick={() => handleNavClick("/")} className="navbar__logo">
-            AI<span>Interview</span>
+            Interview<span>IQ</span>
           </h2>
         </div>
 
