@@ -44,8 +44,8 @@ async function registerUserController(req, res) {
         // Set token in httpOnly cookie
         res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            secure: true,
+            sameSite: "none",
             maxAge: 2 * 24 * 60 * 60 * 1000
         })
 
@@ -106,8 +106,8 @@ async function loginUserController(req, res) {
         // Set token in httpOnly cookie
         res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            secure: true,
+            sameSite: "none",
             maxAge: 2 * 24 * 60 * 60 * 1000
         })
         // Return success response
@@ -142,7 +142,11 @@ async function logoutUserController(req, res) {
             await blacklistModel.create({ token })
         }
         // Clear token cookie
-        res.clearCookie("token")
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
+        })
 
         return res.status(200).json({
             message: "User logged out successfully"
@@ -159,14 +163,14 @@ async function logoutUserController(req, res) {
  * @description Get current logged in user details
  * @access Private
  */
-async function getMeController(req,res){
+async function getMeController(req, res) {
     const user = await userModel.findById(req.user.id)
     res.status(200).json({
-        message:"User details fetched successfully",
-        user:{
-            id:user._id,
-            username:user.username,
-            email:user.email
+        message: "User details fetched successfully",
+        user: {
+            id: user._id,
+            username: user.username,
+            email: user.email
         }
     })
 }
