@@ -17,4 +17,8 @@ app.use(cors({
 app.use('/api/auth',authRouter)
 app.use('/api/interview',interviewRouter)
 
+app.get('/',(req,res)=>{
+    res.send('Api Running...')
+})
+
 module.exports = app
