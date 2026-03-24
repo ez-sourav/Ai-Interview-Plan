@@ -1,479 +1,984 @@
-// ── Shared Variables (mirrors home.scss theme) ────────────────────────────────
-$bg-page: #0d1117;
-$bg-card: #161b22;
-$bg-panel: #1c2230;
-$bg-input: #1e2535;
-$border-color: #2a3348;
-$text-primary: #e6edf3;
-$text-muted: #7d8590;
-$accent: #ff2d78;
-$font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+// ── Shared Variables (Synced with home.scss ) ────────────────────
 
-// severity palette
-$severity-high: #ff4d4d;
-$severity-medium: #f5a623;
-$severity-low: #3fb950;
+$bg-page: #0b0b0c;
+$bg-card: #161617;
+$bg-panel: #1d1d1f;
+$bg-input: #18181a;
 
+$border-color: #2a2a2d;
+
+$text-primary: #f9fafb;
+$text-muted: #9ca3af;
+
+$accent: #ff7f11;
+$accent-dark: #e56f00;
+$accent-glow: rgba(#ff7f11, 0.18);
+
+$font-stack:
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  Roboto,
+  sans-serif;
+
+// ── Severity Palette (Updated to match theme) ────────────────────────────────
+$severity-high: #ef4444;
+$severity-medium: #f59e0b;
+$severity-low: #22c55e;
+
+// ── Scrollbar Hide ───────────────────────────────────────────────────────────
 *::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
-
 // ── Page Shell ────────────────────────────────────────────────────────────────
 .interview-page {
-    width: 100%;
-    min-height: 100vh;
-    background-color: $bg-page;
-    color: $text-primary;
-    font-family: $font-stack;
+  width: 100%;
+  min-height: 100vh;
+  background-color: $bg-page;
+  color: $text-primary;
+  font-family: $font-stack;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  padding-top: 2rem;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+// ── Mobile Header ─────────────────────────────────────────────────────────────
+.interview-mobile-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  background: $bg-card;
+  border: 1px solid $border-color;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  gap: 1rem;
+
+  &__toggle {
     display: flex;
-    align-items: stretch;
-    padding: 1.5rem;
-    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 1px solid $border-color;
+    border-radius: 0.5rem;
+    color: $accent;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+
+    &:hover {
+      background-color: rgba($accent, 0.1);
+      border-color: $accent;
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $text-primary;
+    margin: 0;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__score {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+}
+
+.match-score-badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.5rem;
+  background-color: rgba($accent, 0.1);
+  color: $accent;
+  border: 1px solid rgba($accent, 0.3);
+}
+
+// ── Sidebar Overlay ───────────────────────────────────────────────────────────
+.interview-sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+   backdrop-filter: blur(4px);
 }
 
 // ── 3-Column Layout ───────────────────────────────────────────────────────────
 .interview-layout {
-    display: flex;
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-    background-color: $bg-card;
-    border: 1px solid $border-color;
-    border-radius: 1rem;
-    justify-content: space-between;
+  display: flex;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  background-color: $bg-card;
+  border: 1px solid $border-color;
+  border-radius: 1rem;
+  justify-content: space-between;
 }
 
 .interview-divider {
-    width: 1px;
-    background-color: $border-color;
-    flex-shrink: 0;
+  width: 1px;
+  background-color: $border-color;
+  flex-shrink: 0;
 }
 
 // ── Left Nav ─────────────────────────────────────────────────────────────────
 .interview-nav {
-    width: 220px;
-    flex-shrink: 0;
-    padding: 1.75rem 1rem;
+  width: 220px;
+  flex-shrink: 0;
+  padding: 1.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.25rem;
+
+  &__label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $text-muted;
+    padding: 0 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__item {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 0.25rem;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    background: none;
+    border: none;
+    border-radius: 0.5rem;
+    color: $text-muted;
+    font-family: $font-stack;
+    font-size: 0.875rem;
+    cursor: pointer;
+    text-align: left;
+    transition:
+      background-color 0.15s,
+      color 0.15s;
 
-
-
-
-    &__label {
-        font-size: 0.7rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: $text-muted;
-        padding: 0 0.75rem;
-        margin-bottom: 0.5rem;
+    &:hover {
+      background-color: $bg-panel;
+      color: $text-primary;
     }
 
-    &__item {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        width: 100%;
-        padding: 0.65rem 0.75rem;
-        background: none;
-        border: none;
-        border-radius: 0.5rem;
-        color: $text-muted;
-        font-family: $font-stack;
-        font-size: 0.875rem;
-        cursor: pointer;
-        text-align: left;
-        transition: background-color 0.15s, color 0.15s;
+    &--active {
+      background-color: rgba($accent, 0.1);
+      color: $accent;
 
-        &:hover {
-            background-color: $bg-panel;
-            color: $text-primary;
-        }
-
-        &--active {
-            background-color: rgba($accent, 0.1);
-            color: $accent;
-
-            .interview-nav__icon svg {
-                stroke: $accent;
-            }
-        }
+      .interview-nav__icon svg {
+        stroke: $accent;
+      }
     }
+  }
 
-    &__icon {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-    }
+  &__icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
 }
 
 // ── Center Content ────────────────────────────────────────────────────────────
 .interview-content {
-    flex: 1;
-    padding: 1.75rem 2rem;
-    overflow-y: auto;
-    min-height: initial;
-    max-height: calc(100vh - 3rem);
-    padding-bottom: 5rem;
-    align-items: flex-start;
+  flex: 1;
+  padding: 1.75rem 2rem;
+  overflow-y: auto;
+  min-height: initial;
+  max-height: calc(100vh - 3rem);
+  padding-bottom: 5rem;
+  align-items: flex-start;
 
-
-
-
-
-
-
-
-    section {
-        min-height: 100%;
-    }
+  section {
+    min-height: 100%;
+  }
 }
 
 .content-header {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid $border-color;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $border-color;
 
-    h2 {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: $text-primary;
-        margin: 0;
-    }
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0;
+  }
 
-    &__count {
-        font-size: 0.8rem;
-        color: $text-muted;
-        background-color: $bg-panel;
-        padding: 0.15rem 0.6rem;
-        border-radius: 2rem;
-        border: 1px solid $border-color;
-    }
+  &__count {
+    font-size: 0.8rem;
+    color: $text-muted;
+    background-color: $bg-panel;
+    padding: 0.15rem 0.6rem;
+    border-radius: 2rem;
+    border: 1px solid $border-color;
+  }
 }
 
 // ── Question Cards ────────────────────────────────────────────────────────────
 .q-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .q-card {
-    background-color: $bg-panel;
-    border: 1px solid $border-color;
-    border-radius: 0.6rem;
-    overflow: hidden;
-    transition: border-color 0.2s;
+  background-color: $bg-panel;
+  border: 1px solid $border-color;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  transition: border-color 0.2s;
 
-    &:hover {
-        border-color: lighten($border-color, 8%);
+  &:hover {
+    border-color: lighten($border-color, 8%);
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  &__index {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: $accent;
+    background-color: rgba($accent, 0.1);
+    border: 1px solid rgba($accent, 0.2);
+    border-radius: 0.3rem;
+    padding: 0.15rem 0.4rem;
+    margin-top: 2px;
+  }
+
+  &__question {
+    flex: 1;
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: $text-primary;
+    line-height: 1.5;
+  }
+
+  &__chevron {
+    flex-shrink: 0;
+    color: $text-muted;
+    transition: transform 0.2s;
+    margin-top: 2px;
+
+    &--open {
+      transform: rotate(180deg);
+      color: $accent;
+    }
+  }
+
+  &__body {
+    padding: 0 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border-top: 1px solid $border-color;
+    padding-top: 0.75rem;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    p {
+      margin: 0;
+      font-size: 0.835rem;
+      color: lighten($text-muted, 15%);
+      line-height: 1.6;
+    }
+  }
+
+  &__tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+    width: fit-content;
+
+    &--intention {
+      color: #a78bfa;
+      background-color: rgba(#a78bfa, 0.1);
+      border: 1px solid rgba(#a78bfa, 0.2);
     }
 
-    &__header {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.75rem;
-        padding: 0.9rem 1rem;
-        cursor: pointer;
-        user-select: none;
+    &--answer {
+      color: #3fb950;
+      background-color: rgba(#3fb950, 0.1);
+      border: 1px solid rgba(#3fb950, 0.2);
     }
-
-    &__index {
-        flex-shrink: 0;
-        font-size: 0.7rem;
-        font-weight: 700;
-        color: $accent;
-        background-color: rgba($accent, 0.1);
-        border: 1px solid rgba($accent, 0.2);
-        border-radius: 0.3rem;
-        padding: 0.15rem 0.4rem;
-        margin-top: 2px;
-    }
-
-    &__question {
-        flex: 1;
-        margin: 0;
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: $text-primary;
-        line-height: 1.5;
-    }
-
-    &__chevron {
-        flex-shrink: 0;
-        color: $text-muted;
-        transition: transform 0.2s;
-        margin-top: 2px;
-
-        &--open {
-            transform: rotate(180deg);
-            color: $accent;
-        }
-    }
-
-    &__body {
-        padding: 0 1rem 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        border-top: 1px solid $border-color;
-        padding-top: 0.75rem;
-    }
-
-    &__section {
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-
-        p {
-            margin: 0;
-            font-size: 0.835rem;
-            color: lighten($text-muted, 15%);
-            line-height: 1.6;
-        }
-    }
-
-    &__tag {
-        font-size: 0.68rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        padding: 0.15rem 0.5rem;
-        border-radius: 0.25rem;
-        width: fit-content;
-
-        &--intention {
-            color: #a78bfa;
-            background-color: rgba(#a78bfa, 0.1);
-            border: 1px solid rgba(#a78bfa, 0.2);
-        }
-
-        &--answer {
-            color: #3fb950;
-            background-color: rgba(#3fb950, 0.1);
-            border: 1px solid rgba(#3fb950, 0.2);
-        }
-    }
+  }
 }
 
 // ── Road Map ──────────────────────────────────────────────────────────────────
 .roadmap-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
 
-    // vertical timeline line
-    &::before {
-        content: '';
-        position: absolute;
-        left: 28px;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: linear-gradient(to bottom, $accent, rgba($accent, 0.1));
-        border-radius: 1px;
-    }
+  // vertical timeline line
+  &::before {
+    content: "";
+    position: absolute;
+    left: 28px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, $accent, rgba($accent, 0.1));
+    border-radius: 1px;
+  }
 }
 
 .roadmap-day {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 0 0.75rem 3.5rem;
+  position: relative;
+
+  // dot on timeline
+  &::before {
+    content: "";
+    position: absolute;
+    left: 21px;
+    top: 1.05rem;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: $bg-card;
+    border: 2px solid $accent;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  &__badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: $accent;
+    background-color: rgba($accent, 0.1);
+    border: 1px solid rgba($accent, 0.25);
+    padding: 0.1rem 0.5rem;
+    border-radius: 2rem;
+  }
+
+  &__focus {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $text-primary;
+  }
+
+  &__tasks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.75rem 0 0.75rem 3.5rem;
-    position: relative;
+    gap: 0.35rem;
 
-    // dot on timeline
-    &::before {
-        content: '';
-        position: absolute;
-        left: 21px;
-        top: 1.05rem;
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        background-color: $bg-card;
-        border: 2px solid $accent;
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.845rem;
+      color: lighten($text-muted, 12%);
+      line-height: 1.5;
     }
+  }
 
-    &__header {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-    }
-
-    &__badge {
-        font-size: 0.7rem;
-        font-weight: 700;
-        color: $accent;
-        background-color: rgba($accent, 0.1);
-        border: 1px solid rgba($accent, 0.25);
-        padding: 0.1rem 0.5rem;
-        border-radius: 2rem;
-    }
-
-    &__focus {
-        margin: 0;
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: $text-primary;
-    }
-
-    &__tasks {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-
-        li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            font-size: 0.845rem;
-            color: lighten($text-muted, 12%);
-            line-height: 1.5;
-        }
-    }
-
-    &__bullet {
-        flex-shrink: 0;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background-color: $text-muted;
-        margin-top: 8px;
-    }
+  &__bullet {
+    flex-shrink: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: $text-muted;
+    margin-top: 8px;
+  }
 }
 
 // ── Right Sidebar ─────────────────────────────────────────────────────────────
 .interview-sidebar {
-    width: 240px;
-    flex-shrink: 0;
-    padding: 1.75rem 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+  width: 240px;
+  flex-shrink: 0;
+  padding: 1.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .sidebar-divider {
-    height: 1px;
-    background-color: $border-color;
+  height: 1px;
+  background-color: $border-color;
 }
 
 // Match Score
 .match-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+
+  &__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $text-muted;
+    margin: 0;
+    align-self: flex-start;
+  }
+
+  &__ring {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
+    justify-content: center;
+    border: 4px solid;
 
-    &__label {
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: $text-muted;
-        margin: 0;
-        align-self: flex-start;
+    &.score--high {
+      border-color: $severity-low;
     }
 
-    &__ring {
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border: 4px solid;
-
-        &.score--high {
-            border-color: $severity-low;
-        }
-
-        &.score--mid {
-            border-color: $severity-medium;
-        }
-
-        &.score--low {
-            border-color: $severity-high;
-        }
+    &.score--mid {
+      border-color: $severity-medium;
     }
 
-    &__value {
-        font-size: 1.6rem;
-        font-weight: 800;
-        color: $text-primary;
-        line-height: 1;
+    &.score--low {
+      border-color: $severity-high;
     }
+  }
 
-    &__pct {
-        font-size: 0.75rem;
-        color: $text-muted;
-        margin-top: -2px;
-    }
+  &__value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: $text-primary;
+    line-height: 1;
+  }
 
-    &__sub {
-        margin: 0;
-        font-size: 0.75rem;
-        color: $severity-low;
-        text-align: center;
-    }
+  &__pct {
+    font-size: 0.75rem;
+    color: $text-muted;
+    margin-top: -2px;
+  }
+
+  &__sub {
+    margin: 0;
+    font-size: 0.75rem;
+    color: $severity-low;
+    text-align: center;
+  }
 }
 
 // Skill Gaps
 .skill-gaps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  &__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $text-muted;
+    margin: 0;
+  }
+
+  &__list {
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-
-    &__label {
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: $text-muted;
-        margin: 0;
-    }
-
-    &__list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
 }
 
 .skill-tag {
-    font-size: 0.775rem;
-    font-weight: 500;
-    padding: 0.3rem 0.7rem;
+  font-size: 0.775rem;
+  font-weight: 500;
+  padding: 0.3rem 0.7rem;
+  border-radius: 0.4rem;
+  border: 1px solid;
+  cursor: default;
+
+  &--high {
+    color: $severity-high;
+    background-color: rgba($severity-high, 0.1);
+    border-color: rgba($severity-high, 0.25);
+  }
+
+  &--medium {
+    color: $severity-medium;
+    background-color: rgba($severity-medium, 0.1);
+    border-color: rgba($severity-medium, 0.25);
+  }
+
+  &--low {
+    color: $severity-low;
+    background-color: rgba($severity-low, 0.1);
+    border-color: rgba($severity-low, 0.25);
+  }
+}
+
+// ── Responsive Design ─────────────────────────────────────────────────────────
+
+// Tablet & Small Desktop (Max Width: 968px)
+@media (max-width: 968px) {
+  .interview-page {
+    padding: 1rem;
+    padding-top: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  // Show mobile header on tablet
+  .interview-mobile-header {
+    display: flex !important;
+  }
+
+  // Show mobile nav system on tablet
+  .interview-nav {
+    display: flex !important;
+    position: fixed;
+    top: 65px;
+    left: 0;
+    height: calc(100vh - 65px);
+    width: 250px;
+    background: $bg-card;
+    border-right: 1px solid $border-color;
+    z-index: 999;
+    padding: 1rem;
+    border-radius: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    flex-direction: column;
+
+    &.show-mobile-nav {
+      transform: translateX(0);
+    }
+  }
+
+  // Overlay for tablet
+  .interview-sidebar-overlay {
+    z-index: 98;
+
+    &.show-overlay {
+      display: block !important;
+    }
+  }
+
+  // Remove vertical divider
+  .interview-divider {
+    display: none;
+  }
+
+  // Adjust content area
+  .interview-content {
+    padding: 1.5rem 1rem;
+    max-height: calc(100vh - 140px);
+
+    section {
+      min-height: auto;
+    }
+  }
+
+  // Reduce card padding on tablet
+  .q-card {
+    border-radius: 0.5rem;
+
+    &__header {
+      padding: 0.75rem 0.85rem;
+    }
+
+    &__body {
+      padding: 0.85rem 0.85rem 0.85rem;
+    }
+  }
+
+  // Adjust sidebar width for tablet view (desktop mode, not shown in mobile)
+  // .interview-sidebar {
+  //   width: 100%;
+  //   padding: 1.5rem 1rem;
+  //   gap: 1rem;
+  // }
+
+  // Roadmap responsive adjustments
+  .roadmap-day {
+    padding: 0.6rem 0 0.6rem 3rem;
+
+    &::before {
+      left: 18px;
+      top: 0.8rem;
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  .roadmap-list::before {
+    left: 24px;
+  }
+}
+
+// Mobile (Max Width: 640px)
+@media (max-width: 640px) {
+  .interview-page {
+    padding: 0.75rem;
+    padding-top: 1rem;
+    margin-top: 1.5rem;
+    overflow-x: hidden;
+  }
+
+  .interview-mobile-header {
+    display: flex !important;
+    padding: 0.75rem 0.85rem;
+    margin-bottom: 0.75rem;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 500; // Above page content but below navbar & menu
+
+    &__toggle {
+      width: 36px;
+      height: 36px;
+      font-size: 0.9rem;
+      display: flex !important;
+      z-index: 1001; // Above everything to ensure it's clickable
+    }
+
+    &__title {
+      font-size: 0.95rem;
+    }
+  }
+
+  .match-score-badge {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.65rem;
+  }
+
+  // Mobile sidebar drawer positioning
+  .interview-nav {
+    display: flex !important;
+    position: fixed;
+    top: 65px; // Properly account for navbar height
+    left: 0;
+    height: calc(100vh - 65px);
+    width: 250px;
+    background: $bg-card;
+    border-right: 1px solid $border-color;
+    z-index: 999; // Below navbar (1000) but above page content
+    padding: 1rem;
+    border-radius: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    flex-direction: column;
+
+    // Show drawer when sidebar is open
+    &.show-mobile-nav {
+      transform: translateX(0);
+    }
+  }
+
+  // Show overlay when drawer is open
+  .interview-sidebar-overlay {
+    z-index: 98; // Below nav (999)
+    
+    &.show-overlay {
+      display: block !important;
+    }
+  }
+
+  // Adjust layout and content
+  .interview-layout {
+    border-radius: 0;
+    border: none;
+    background: $bg-page;
+  }
+
+  .interview-content {
+    padding: 1rem;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+
+  // Mobile-optimized cards
+  .q-card {
+    background-color: $bg-panel;
     border-radius: 0.4rem;
-    border: 1px solid;
-    cursor: default;
 
-    &--high {
-        color: $severity-high;
-        background-color: rgba($severity-high, 0.1);
-        border-color: rgba($severity-high, 0.25);
+    &__header {
+      padding: 0.7rem 0.75rem;
+      gap: 0.5rem;
     }
 
-    &--medium {
-        color: $severity-medium;
-        background-color: rgba($severity-medium, 0.1);
-        border-color: rgba($severity-medium, 0.25);
+    &__question {
+      font-size: 0.85rem;
+      line-height: 1.4;
     }
 
-    &--low {
-        color: $severity-low;
-        background-color: rgba($severity-low, 0.1);
-        border-color: rgba($severity-low, 0.25);
+    &__index {
+      font-size: 0.65rem;
+      padding: 0.1rem 0.35rem;
     }
+
+    &__body {
+      padding: 0.75rem 0.75rem 0.75rem;
+    }
+
+    &__section {
+      gap: 0.3rem;
+
+      p {
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+    }
+
+    &__tag {
+      font-size: 0.65rem;
+      padding: 0.12rem 0.4rem;
+    }
+  }
+
+  // Roadmap mobile adjustments
+  .roadmap-list {
+    gap: 0.25rem;
+
+    &::before {
+      left: 18px;
+    }
+  }
+
+  .roadmap-day {
+    padding: 0.5rem 0 0.5rem 2.8rem;
+    gap: 0.4rem;
+
+    &::before {
+      left: 12px;
+      top: 0.65rem;
+      width: 11px;
+      height: 11px;
+    }
+
+    &__header {
+      gap: 0.5rem;
+    }
+
+    &__badge {
+      font-size: 0.65rem;
+      padding: 0.08rem 0.4rem;
+    }
+
+    &__focus {
+      font-size: 0.9rem;
+    }
+
+    &__tasks li {
+      font-size: 0.8rem;
+    }
+  }
+
+  // Content header responsive
+  .content-header {
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+
+    h2 {
+      font-size: 1rem;
+    }
+
+    &__count {
+      font-size: 0.75rem;
+      padding: 0.12rem 0.5rem;
+    }
+  }
+
+  // Hide sidebar completely on mobile, add to bottom if needed
+  .interview-sidebar {
+    display: none;
+  }
+}
+
+// Small Mobile (Max Width: 480px)
+@media (max-width: 480px) {
+  .interview-page {
+    padding: 0.5rem;
+    padding-top: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .interview-mobile-header {
+    display: flex !important;
+    padding: 0.6rem 0.7rem;
+    margin-bottom: 0.5rem;
+    gap: 0.6rem;
+    border-radius: 0.5rem;
+
+    &__toggle {
+      width: 32px;
+      height: 32px;
+      font-size: 0.85rem;
+      border-radius: 0.4rem;
+      display: flex !important;
+      z-index: 1001;
+    }
+  }
+
+  // Ensure nav drawer works on very small screens
+  .interview-nav {
+    top: 60px; // Slightly reduced for smaller screens
+    height: calc(100vh - 60px);
+    width: 220px; // Slightly narrower on small screens
+    padding: 0.75rem;
+
+    &.show-mobile-nav {
+      display: flex !important;
+      transform: translateX(0);
+    }
+  }
+
+  .interview-sidebar-overlay {
+    &.show-overlay {
+      display: block !important;
+    }
+
+    &__title {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+  }
+
+  .match-score-badge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.55rem;
+  }
+
+  // Adjust nav drawer for small screens
+  .interview-nav {
+    width: 220px;
+  }
+
+  .interview-content {
+    padding: 0.75rem 0.5rem;
+    max-height: calc(100vh - 100px);
+  }
+
+  // Minimize card sizes
+  .q-card {
+    &__header {
+      padding: 0.6rem 0.65rem;
+      gap: 0.4rem;
+    }
+
+    &__question {
+      font-size: 0.8rem;
+    }
+
+    &__index {
+      font-size: 0.6rem;
+      padding: 0.15rem 0.3rem;
+    }
+
+    &__body {
+      padding: 0.65rem 0.65rem 0.65rem;
+      gap: 0.6rem;
+    }
+
+    &__section p {
+      font-size: 0.775rem;
+    }
+  }
+
+  // Roadmap micro adjustments
+  .roadmap-list::before {
+    left: 16px;
+  }
+
+  .roadmap-day {
+    padding: 0.4rem 0 0.4rem 2.6rem;
+    gap: 0.3rem;
+
+    &::before {
+      left: 10px;
+      top: 0.6rem;
+      width: 10px;
+      height: 10px;
+    }
+
+    &__header {
+      gap: 0.4rem;
+    }
+
+    &__badge {
+      font-size: 0.6rem;
+      padding: 0.1rem 0.35rem;
+    }
+
+    &__focus {
+      font-size: 0.85rem;
+    }
+
+    &__tasks li {
+      font-size: 0.75rem;
+      gap: 0.4rem;
+    }
+
+    &__bullet {
+      margin-top: 6px;
+    }
+  }
+
+  .content-header {
+    margin-bottom: 0.75rem;
+
+    h2 {
+      font-size: 0.95rem;
+    }
+  }
 }

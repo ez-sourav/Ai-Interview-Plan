@@ -1,0 +1,701 @@
+// ── Recent Reports Styles ─────────────────────────────────────────────────────
+
+// ── Variables ──────────────────────────────────────────────────────────────────
+$bg-page:        #0b0b0c;
+$bg-card:        #161617;
+$bg-panel:       #1d1d1f;
+$bg-input:       #18181a;
+
+$border-color:   #2a2a2d;
+$border-focus:   #FF7F11;
+
+$text-primary:   #f9fafb;
+$text-muted:     #9ca3af;
+
+$accent:         #FF7F11;
+$accent-dark:    #e56f00;
+$accent-glow:    rgba(#FF7F11, 0.18);
+
+$success:        #22c55e;
+$success-bg:     rgba(#22c55e, 0.12);
+$success-border: rgba(#22c55e, 0.35);
+
+$warning:        #f59e0b;
+$warning-bg:     rgba(#f59e0b, 0.12);
+
+$error:          #ef4444;
+$error-bg:       rgba(#ef4444, 0.12);
+
+$info-bg:        #2b1a0f;
+$info-border:    #FF7F11;
+
+$font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+// ── Keyframes ──────────────────────────────────────────────────────────────────
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+// ── Recent Reports Container ───────────────────────────────────────────────────
+.recent-reports {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 1rem;
+  animation: fadeInUp 0.5s ease both;
+  box-sizing: border-box;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 0.25rem;
+      color: $text-primary;
+      font-family: $font-stack;
+    }
+  }
+
+  &__subtitle {
+    font-size: 0.875rem;
+    color: $text-muted;
+    margin: 0;
+    font-family: $font-stack;
+  }
+}
+
+// ── Reports Count Badge ────────────────────────────────────────────────────────
+.reports-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba($accent, 0.15) 0%, rgba($accent, 0.08) 100%);
+  border: 1px solid rgba($accent, 0.3);
+  color: $accent;
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-family: $font-stack;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+// ── Reports Container ─────────────────────────────────────────────────────────
+.reports-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+// ── Reports List ──────────────────────────────────────────────────────────────
+.reports-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+// ── Report Item ────────────────────────────────────────────────────────────────
+.report-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background-color: $bg-card;
+  border: 1px solid $border-color;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: $font-stack;
+  animation: slideInLeft 0.4s ease both;
+  width: 100%;
+  box-sizing: border-box;
+
+  @for $i from 1 through 5 {
+    &:nth-child(#{$i}) {
+      animation-delay: $i * 0.05s;
+    }
+  }
+
+  &:hover {
+    border-color: $border-focus;
+    background-color: rgba($accent, 0.03);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+
+    .report-item__right svg {
+      color: $accent;
+      transform: translateX(4px);
+    }
+
+    .report-item__title {
+      color: $accent;
+    }
+  }
+
+  &:focus-within {
+    outline: 2px solid $accent;
+    outline-offset: 2px;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 0.625rem;
+    background: rgba($accent, 0.1);
+    color: $accent;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+  }
+
+  &__content {
+    min-width: 0;
+    flex: 1;
+  }
+
+  &__title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    color: $text-primary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.25s ease;
+  }
+
+  &__meta {
+    font-size: 0.8125rem;
+    color: $text-muted;
+    margin: 0;
+  }
+
+  &__middle {
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    color: $text-muted;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+
+    svg {
+      transition: all 0.25s ease;
+      min-width: 18px;
+      min-height: 18px;
+    }
+  }
+}
+
+// ── Match Score Badge ──────────────────────────────────────────────────────────
+.match-score-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.625rem;
+  font-family: $font-stack;
+  transition: all 0.25s ease;
+  min-width: 75px;
+  white-space: nowrap;
+
+  .score-value {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.15rem;
+  }
+
+  .score-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.85;
+  }
+
+  &.score--high {
+    background-color: $success-bg;
+    border: 1px solid $success-border;
+    color: $success;
+  }
+
+  &.score--mid {
+    background-color: $warning-bg;
+    border: 1px solid rgba($warning, 0.35);
+    color: $warning;
+  }
+
+  &.score--low {
+    background-color: rgba($accent, 0.12);
+    border: 1px solid rgba($accent, 0.3);
+    color: $accent;
+  }
+}
+
+// ── Empty State ────────────────────────────────────────────────────────────────
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 3.5rem 2rem;
+  background: linear-gradient(135deg, rgba($accent, 0.05) 0%, rgba($accent, 0.02) 100%);
+  border: 1px dashed $border-color;
+  border-radius: 1rem;
+  text-align: center;
+  font-family: $font-stack;
+  animation: scaleIn 0.4s ease both;
+  width: 100%;
+  box-sizing: border-box;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba($accent, 0.1);
+    color: $accent;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  &__content {
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem;
+      color: $text-primary;
+    }
+
+    p {
+      font-size: 0.875rem;
+      color: $text-muted;
+      margin: 0;
+      line-height: 1.5;
+      max-width: 280px;
+    }
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.35rem;
+    background: linear-gradient(135deg, $accent 0%, $accent-dark 100%);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: $font-stack;
+    white-space: nowrap;
+
+    &:hover {
+      opacity: 0.88;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($accent, 0.3);
+    }
+
+    &:active {
+      transform: scale(0.975);
+    }
+  }
+
+  &:hover &__icon {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+// ── Responsive Styles ─────────────────────────────────────────────────────────
+@media (max-width: 1024px) {
+  .recent-reports {
+    padding: 0 1rem;
+
+    &__header {
+      gap: 0.875rem;
+
+      h2 {
+        font-size: 1.375rem;
+      }
+    }
+  }
+
+  .report-item {
+    padding: 0.95rem 1.15rem;
+    gap: 0.875rem;
+
+    &__icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    &__title {
+      font-size: 0.9rem;
+    }
+  }
+
+  .match-score-badge {
+    min-width: 70px;
+    padding: 0.45rem 0.8rem;
+
+    .score-value {
+      font-size: 1rem;
+    }
+
+    .score-label {
+      font-size: 0.65rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .recent-reports {
+    padding: 0 0.875rem;
+
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+
+      h2 {
+        font-size: 1.25rem;
+      }
+    }
+
+    &__subtitle {
+      font-size: 0.8125rem;
+    }
+  }
+
+  .reports-count {
+    align-self: flex-start;
+  }
+
+  .reports-container {
+    gap: 0.75rem;
+  }
+
+  .reports-list {
+    gap: 0.75rem;
+  }
+
+  .report-item {
+    flex-wrap: wrap;
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+
+    &__left {
+      gap: 0.75rem;
+      order: 1;
+      width: 100%;
+    }
+
+    &__icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    &__title {
+      font-size: 0.875rem;
+    }
+
+    &__middle {
+      order: 2;
+      width: auto;
+    }
+
+    &__right {
+      order: 3;
+      margin-left: auto;
+    }
+  }
+
+  .match-score-badge {
+    min-width: 65px;
+    padding: 0.4rem 0.75rem;
+
+    .score-value {
+      font-size: 0.95rem;
+    }
+
+    .score-label {
+      font-size: 0.65rem;
+    }
+  }
+
+  .empty-state {
+    padding: 2.5rem 1.5rem;
+    gap: 1rem;
+
+    &__icon {
+      width: 64px;
+      height: 64px;
+    }
+
+    &__content {
+      h3 {
+        font-size: 1rem;
+      }
+
+      p {
+        font-size: 0.8125rem;
+        max-width: 240px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .recent-reports {
+    padding: 0 0.75rem;
+
+    &__header {
+      h2 {
+        font-size: 1.1rem;
+      }
+
+      gap: 0.5rem;
+    }
+
+    &__subtitle {
+      font-size: 0.75rem;
+    }
+  }
+
+  .reports-container {
+    gap: 0.65rem;
+  }
+
+  .reports-list {
+    gap: 0.65rem;
+  }
+
+  .report-item {
+    padding: 0.75rem 0.875rem;
+    border-radius: 0.5rem;
+    gap: 0.65rem;
+
+    &__left {
+      width: 100%;
+      gap: 0.65rem;
+    }
+
+    &__icon {
+      width: 36px;
+      height: 36px;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    &__content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &__title {
+      font-size: 0.8125rem;
+    }
+
+    &__meta {
+      font-size: 0.7rem;
+    }
+
+    &__middle {
+      width: auto;
+    }
+
+    &__right {
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  .match-score-badge {
+    padding: 0.35rem 0.65rem;
+    min-width: 60px;
+
+    .score-value {
+      font-size: 0.9rem;
+    }
+
+    .score-label {
+      font-size: 0.6rem;
+    }
+  }
+
+  .empty-state {
+    padding: 2rem 1rem;
+    gap: 0.875rem;
+    border-radius: 0.75rem;
+
+    &__icon {
+      width: 56px;
+      height: 56px;
+
+      svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    &__content {
+      h3 {
+        font-size: 0.95rem;
+      }
+
+      p {
+        font-size: 0.75rem;
+        max-width: 200px;
+      }
+    }
+
+    &__cta {
+      padding: 0.6rem 1.1rem;
+      font-size: 0.8125rem;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .recent-reports {
+    padding: 0 0.65rem;
+
+    &__header {
+      h2 {
+        font-size: 1rem;
+      }
+    }
+
+    &__subtitle {
+      font-size: 0.7rem;
+    }
+  }
+
+  .report-item {
+    padding: 0.65rem 0.75rem;
+    border-radius: 0.4rem;
+
+    &__title {
+      font-size: 0.8rem;
+    }
+
+    &__icon {
+      width: 32px;
+      height: 32px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  .match-score-badge {
+    padding: 0.3rem 0.55rem;
+    min-width: 55px;
+
+    .score-value {
+      font-size: 0.85rem;
+    }
+
+    .score-label {
+      font-size: 0.55rem;
+    }
+  }
+
+  .empty-state {
+    padding: 1.5rem 0.75rem;
+
+    &__icon {
+      width: 48px;
+      height: 48px;
+
+      svg {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    &__content {
+      h3 {
+        font-size: 0.9rem;
+      }
+
+      p {
+        font-size: 0.7rem;
+        max-width: 180px;
+      }
+    }
+
+    &__cta {
+      width: 100%;
+      justify-content: center;
+      padding: 0.55rem 0.9rem;
+      font-size: 0.75rem;
+    }
+  }
+}
