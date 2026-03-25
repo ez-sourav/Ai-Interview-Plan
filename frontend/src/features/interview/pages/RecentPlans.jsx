@@ -4,7 +4,7 @@ import "../style/recentPlans.scss";
 import Navbar from "../../auth/components/Navbar";
 
 export const RecentPlans = () => {
-    const { reports } = useInterview();
+    const { reports,isFetchingReports  } = useInterview();
 
     return (
         <>
@@ -19,7 +19,7 @@ export const RecentPlans = () => {
                     </div>
                 </header>
 
-                <RecentReports reports={reports} />
+                <RecentReports reports={reports}  loading={isFetchingReports}  />
             </div>
         </>
     );
