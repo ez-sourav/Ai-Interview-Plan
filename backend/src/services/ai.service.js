@@ -135,12 +135,13 @@ async function generatePdfFromHtml(htmlContent) {
     return pdfBuffer
 }
 
-async function generateResumePdf({resume,selfDescription,jobDescription}){
-    const resumePdfSchema = z.object({
-         html: z.string().describe("The HTML content of the resume which can be converted to PDF using any library like puppeteer")
-    })
+async function generateResumePdf({ resume, selfDescription, jobDescription }) {
+    try {
+        const resumePdfSchema = z.object({
+            html: z.string().describe("The HTML content of the resume which can be converted to PDF using any library like puppeteer")
+        })
 
-    const prompt = `
+        const prompt = `
 You are an expert resume writer and ATS optimization system.
 
 INPUT:
@@ -211,21 +212,35 @@ STRICT RULES:
 
 Generate the final result now.
 `;
-    const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt,
-        config: {
-            responseMimeType: "application/json",
-            responseSchema: zodToJsonSchema(resumePdfSchema),
+        const response = await ai.models.generateContent({
+            model: "gemini-3-flash-preview",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: zodToJsonSchema(resumePdfSchema),
+            }
+        })
+
+        const jsonMatch = response.text.match(/\{[\s\S]*\}/);
+
+        if (!jsonMatch) {
+            throw new Error("No valid JSON found in Gemini response");
         }
-    })
 
-     const jsonContent = JSON.parse(response.text)
+        const jsonContent = JSON.parse(jsonMatch[0]);
 
-    const pdfBuffer = await generatePdfFromHtml(jsonContent.html)
+        if (!jsonContent.html) {
+            throw new Error("Invalid resume HTML from AI");
+        }
 
-    return pdfBuffer
-}    
+        const pdfBuffer = await generatePdfFromHtml(jsonContent.html)
+
+        return pdfBuffer;
+    } catch (error) {
+        console.error("Resume PDF generation failed:", error);
+        throw error;
+    }
+}
 
 module.exports = {
     generateInterviewReport,
