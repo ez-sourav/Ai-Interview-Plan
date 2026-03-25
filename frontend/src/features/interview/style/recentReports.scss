@@ -237,25 +237,25 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 0.875rem;
-  border-radius: 0.625rem;
+   padding: 0.4rem 0.65rem;   // smaller
+  min-width: 60px;          // reduced width
+  border-radius: 0.5rem;
   font-family: $font-stack;
   transition: all 0.25s ease;
-  min-width: 75px;
   white-space: nowrap;
 
   .score-value {
-    font-size: 1.125rem;
-    font-weight: 700;
+    font-size: 0.95rem;     // smaller number
+    font-weight: 600;
     line-height: 1;
     margin-bottom: 0.15rem;
   }
 
   .score-label {
-    font-size: 0.7rem;
+   font-size: 0.6rem;      // smaller label
+    letter-spacing: 0.03em;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
     opacity: 0.85;
   }
 
@@ -272,11 +272,13 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
   }
 
   &.score--low {
-    background-color: rgba($accent, 0.12);
-    border: 1px solid rgba($accent, 0.3);
-    color: $accent;
+     background-color: rgba(#fb923c, 0.12);
+  border: 1px solid rgba(#fb923c, 0.35);
+  color: #fb923c;
+  filter: saturate(6);
   }
 }
+
 
 // ── Empty State ────────────────────────────────────────────────────────────────
 .empty-state {
@@ -330,7 +332,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.7rem 1.35rem;
+    padding: 0.6rem 1.2rem;
     background: linear-gradient(135deg, $accent 0%, $accent-dark 100%);
     color: #fff;
     font-size: 0.875rem;
@@ -359,304 +361,110 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
   }
 }
 
-// ── Responsive Styles ─────────────────────────────────────────────────────────
-@media (max-width: 1024px) {
-  .recent-reports {
-    padding: 0 1rem;
-
-    &__header {
-      gap: 0.875rem;
-
-      h2 {
-        font-size: 1.375rem;
-      }
-    }
-  }
-
-  .report-item {
-    padding: 0.95rem 1.15rem;
-    gap: 0.875rem;
-
-    &__icon {
-      width: 40px;
-      height: 40px;
-    }
-
-    &__title {
-      font-size: 0.9rem;
-    }
-  }
-
-  .match-score-badge {
-    min-width: 70px;
-    padding: 0.45rem 0.8rem;
-
-    .score-value {
-      font-size: 1rem;
-    }
-
-    .score-label {
-      font-size: 0.65rem;
-    }
-  }
+.skeleton {
+  height: 60px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    #1d1d1f 25%,
+    #2a2a2d 50%,
+    #1d1d1f 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
 }
 
-@media (max-width: 768px) {
-  .recent-reports {
-    padding: 0 0.875rem;
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 
-    &__header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.75rem;
-      margin-bottom: 1.25rem;
+// ── Responsive Styles (IMPROVED) ─────────────────────────────────────────
 
-      h2 {
-        font-size: 1.25rem;
-      }
-    }
-
-    &__subtitle {
-      font-size: 0.8125rem;
-    }
-  }
-
-  .reports-count {
-    align-self: flex-start;
-  }
-
-  .reports-container {
-    gap: 0.75rem;
-  }
-
-  .reports-list {
-    gap: 0.75rem;
-  }
-
+@media (max-width: 1024px) {
   .report-item {
-    flex-wrap: wrap;
-    padding: 0.875rem 1rem;
+    padding: 0.9rem 1.1rem;
     gap: 0.75rem;
-
-    &__left {
-      gap: 0.75rem;
-      order: 1;
-      width: 100%;
-    }
 
     &__icon {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
     }
 
     &__title {
-      font-size: 0.875rem;
-    }
-
-    &__middle {
-      order: 2;
-      width: auto;
-    }
-
-    &__right {
-      order: 3;
-      margin-left: auto;
+      font-size: 0.88rem;
     }
   }
 
   .match-score-badge {
     min-width: 65px;
-    padding: 0.4rem 0.75rem;
+    padding: 0.4rem 0.7rem;
 
     .score-value {
       font-size: 0.95rem;
     }
 
     .score-label {
-      font-size: 0.65rem;
-    }
-  }
-
-  .empty-state {
-    padding: 2.5rem 1.5rem;
-    gap: 1rem;
-
-    &__icon {
-      width: 64px;
-      height: 64px;
-    }
-
-    &__content {
-      h3 {
-        font-size: 1rem;
-      }
-
-      p {
-        font-size: 0.8125rem;
-        max-width: 240px;
-      }
+      font-size: 0.6rem;
     }
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .recent-reports {
     padding: 0 0.75rem;
 
     &__header {
-      h2 {
-        font-size: 1.1rem;
-      }
-
+      flex-direction: column;
+      align-items: flex-start;
       gap: 0.5rem;
+
+      h2 {
+        font-size: 1.2rem;
+      }
     }
 
     &__subtitle {
-      font-size: 0.75rem;
+      font-size: 0.78rem;
     }
-  }
-
-  .reports-container {
-    gap: 0.65rem;
   }
 
   .reports-list {
-    gap: 0.65rem;
+    gap: 0.6rem;
   }
 
   .report-item {
-    padding: 0.75rem 0.875rem;
-    border-radius: 0.5rem;
-    gap: 0.65rem;
+    flex-wrap: nowrap; 
+    align-items: center;
+    padding: 0.7rem 0.85rem;
+    gap: 0.6rem;
 
     &__left {
-      width: 100%;
-      gap: 0.65rem;
+      gap: 0.6rem;
     }
 
     &__icon {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
 
       svg {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
       }
     }
 
-    &__content {
-      flex: 1;
-      min-width: 0;
-    }
-
     &__title {
-      font-size: 0.8125rem;
+      font-size: 0.82rem;
     }
 
     &__meta {
-      font-size: 0.7rem;
-    }
-
-    &__middle {
-      width: auto;
-    }
-
-    &__right {
-      svg {
-        width: 16px;
-        height: 16px;
-      }
+      font-size: 0.68rem;
     }
   }
 
   .match-score-badge {
-    padding: 0.35rem 0.65rem;
-    min-width: 60px;
-
-    .score-value {
-      font-size: 0.9rem;
-    }
-
-    .score-label {
-      font-size: 0.6rem;
-    }
-  }
-
-  .empty-state {
-    padding: 2rem 1rem;
-    gap: 0.875rem;
-    border-radius: 0.75rem;
-
-    &__icon {
-      width: 56px;
-      height: 56px;
-
-      svg {
-        width: 32px;
-        height: 32px;
-      }
-    }
-
-    &__content {
-      h3 {
-        font-size: 0.95rem;
-      }
-
-      p {
-        font-size: 0.75rem;
-        max-width: 200px;
-      }
-    }
-
-    &__cta {
-      padding: 0.6rem 1.1rem;
-      font-size: 0.8125rem;
-
-      svg {
-        width: 14px;
-        height: 14px;
-      }
-    }
-  }
-}
-
-@media (max-width: 360px) {
-  .recent-reports {
-    padding: 0 0.65rem;
-
-    &__header {
-      h2 {
-        font-size: 1rem;
-      }
-    }
-
-    &__subtitle {
-      font-size: 0.7rem;
-    }
-  }
-
-  .report-item {
-    padding: 0.65rem 0.75rem;
-    border-radius: 0.4rem;
-
-    &__title {
-      font-size: 0.8rem;
-    }
-
-    &__icon {
-      width: 32px;
-      height: 32px;
-
-      svg {
-        width: 16px;
-        height: 16px;
-      }
-    }
-  }
-
-  .match-score-badge {
-    padding: 0.3rem 0.55rem;
     min-width: 55px;
+    padding: 0.3rem 0.55rem;
 
     .score-value {
       font-size: 0.85rem;
@@ -666,36 +474,91 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
       font-size: 0.55rem;
     }
   }
+}
 
-  .empty-state {
-    padding: 1.5rem 0.75rem;
+@media (max-width: 480px) {
+  .recent-reports {
+    padding: 0 0.6rem;
+
+    &__header {
+      h2 {
+        font-size: 1.05rem;
+      }
+    }
+  }
+
+  .reports-list {
+    gap: 0.5rem;
+  }
+
+  .report-item {
+    padding: 0.6rem 0.7rem;
+    border-radius: 0.45rem;
+    gap: 0.5rem;
 
     &__icon {
-      width: 48px;
-      height: 48px;
+      width: 30px;
+      height: 30px;
 
       svg {
-        width: 28px;
-        height: 28px;
+        width: 15px;
+        height: 15px;
       }
     }
 
-    &__content {
-      h3 {
-        font-size: 0.9rem;
-      }
-
-      p {
-        font-size: 0.7rem;
-        max-width: 180px;
-      }
+    &__title {
+      font-size: 0.78rem;
     }
 
-    &__cta {
-      width: 100%;
-      justify-content: center;
-      padding: 0.55rem 0.9rem;
+    &__meta {
+      font-size: 0.65rem;
+    }
+
+    &__right svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0.7;
+    }
+  }
+
+  .match-score-badge {
+    min-width: 50px;
+    padding: 0.25rem 0.5rem;
+
+    .score-value {
+      font-size: 0.8rem;
+    }
+
+    .score-label {
+      font-size: 0.5rem;
+       display: none;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .report-item {
+    padding: 0.55rem 0.6rem;
+
+    &__icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    &__title {
       font-size: 0.75rem;
+    }
+  }
+
+  .match-score-badge {
+    min-width: 45px;
+
+    .score-value {
+      font-size: 0.75rem;
+    }
+
+    .score-label {
+      font-size: 0.48rem;
     }
   }
 }
