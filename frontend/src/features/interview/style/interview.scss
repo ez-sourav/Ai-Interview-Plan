@@ -124,9 +124,8 @@ $severity-low: #22c55e;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 99;
-   backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
-
 
 // --- error style -----
 // ── State Screens ─────────────────────────────────────────────
@@ -208,8 +207,6 @@ $severity-low: #22c55e;
   }
 }
 
-
-
 // ── State Button ─────────────────────────────────────
 .state-btn {
   display: inline-flex;
@@ -271,7 +268,7 @@ $severity-low: #22c55e;
   padding: 1.75rem 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-between;
   gap: 0.25rem;
 
   &__label {
@@ -322,6 +319,18 @@ $severity-low: #22c55e;
     align-items: center;
     flex-shrink: 0;
   }
+}
+
+.nav-content {
+  flex: 1; 
+}
+
+.nav-footer {
+  margin-top: auto;        
+  padding-top: 12px;
+  padding-bottom: 10px;
+  background: $bg-card;
+  border-top: 1px solid $border-color; 
 }
 
 // ── Center Content ────────────────────────────────────────────────────────────
@@ -693,12 +702,12 @@ $severity-low: #22c55e;
   justify-content: center;
 
   gap: 8px;
-  height: 44px;              // ✅ fixed height (same everywhere)
-  padding: 0 16px;           // ✅ horizontal only
+  height: 44px; 
+  padding: 0 16px; 
   font-size: 0.9rem;
 
   border-radius: 8px;
-  white-space: nowrap;       // prevents text break
+  white-space: nowrap; // prevents text break
 }
 
 .button.primary-button svg {
@@ -718,14 +727,16 @@ $severity-low: #22c55e;
   border-top: 2.5px solid #ffffff;
   border-right: 2.5px solid #ffffff;
   border-radius: 50%;
-   flex-shrink: 0;        // ✅ prevents shrinking
+  flex-shrink: 0; // ✅ prevents shrinking
   display: inline-block;
- 
+
   animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // ── Responsive Design ─────────────────────────────────────────────────────────
@@ -750,7 +761,8 @@ $severity-low: #22c55e;
     top: 75px;
     left: 0;
     height: calc(100vh - 75px);
-    width: 250px;
+    width: 75%;
+    max-width: 300px;
     background: $bg-card;
     border-right: 1px solid $border-color;
     z-index: 999;
@@ -869,7 +881,8 @@ $severity-low: #22c55e;
     top: 65px; // Properly account for navbar height
     left: 0;
     height: calc(100vh - 65px);
-    width: 250px;
+    width: 75%;
+    max-width: 300px;
     background: $bg-card;
     border-right: 1px solid $border-color;
     z-index: 999; // Below navbar (1000) but above page content
@@ -879,6 +892,7 @@ $severity-low: #22c55e;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-y: auto;
     flex-direction: column;
+    padding-bottom: 12px;
 
     // Show drawer when sidebar is open
     &.show-mobile-nav {
@@ -889,7 +903,7 @@ $severity-low: #22c55e;
   // Show overlay when drawer is open
   .interview-sidebar-overlay {
     z-index: 98; // Below nav (999)
-    
+
     &.show-overlay {
       display: block !important;
     }
@@ -1144,7 +1158,6 @@ $severity-low: #22c55e;
     }
   }
 }
-
 
 // ── Responsive: State Screens ─────────────────────────────
 
