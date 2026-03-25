@@ -1,5 +1,5 @@
-import { useContext,useEffect } from 'react'
-import { getAllInterviewReports, getInterviewReportById, generateInterviewReport,generateResumePdf } from '../services/interview.api'
+import { useContext, useEffect } from 'react'
+import { getAllInterviewReports, getInterviewReportById, generateInterviewReport, generateResumePdf } from '../services/interview.api'
 import { InterviewContext } from '../interview.context'
 import { useParams } from 'react-router-dom'
 
@@ -11,8 +11,8 @@ export const useInterview = () => {
     }
 
     const { isGenerating, setIsGenerating,
-    isFetchingReports, setIsFetchingReports,
-    isFetchingSingle, setIsFetchingSingle, report, setReport, reports, setReports, error, setError } = context;
+        isFetchingReports, setIsFetchingReports,
+        isFetchingSingle, setIsFetchingSingle, report, setReport, reports, setReports, error, setError } = context;
 
     const generateReport = async ({ jobDescription, selfDescription, resumeFile }) => {
         setIsGenerating(true);
@@ -25,7 +25,7 @@ export const useInterview = () => {
         } finally {
             setIsGenerating(false);
         }
-        return response.interviewReport;
+        return response?.interviewReport || null;
     }
 
     const getReportById = async (interviewId) => {
@@ -34,15 +34,19 @@ export const useInterview = () => {
         let response = null;
         try {
             response = await getInterviewReportById(interviewId);
-            setReport(response.interviewReport);
+            setReport(response?.interviewReport || null);
         } catch (error) {
             console.error("Error fetching interview report:", error);
-            setReport(null);       
-        setError("Report not found or invalid ID");  
+            setReport(null);
+            if (error.response?.status === 404) {
+                setError(null); // not found case
+            } else {
+                setError("Something went wrong. Please try again.");
+            }
         } finally {
             setIsFetchingSingle(false);
         }
-        return response.interviewReport;
+        return response?.interviewReport || null;
     }
 
     const getReports = async () => {
@@ -50,56 +54,56 @@ export const useInterview = () => {
         let response = null;
         try {
             response = await getAllInterviewReports();
-            setReports(response.interviewReports);
+            setReports(response?.interviewReports || []);
         } catch (error) {
             console.error("Error fetching interview reports:", error);
         } finally {
             setIsFetchingReports(false);
         }
-        return response.interviewReports;
+        return response?.interviewReports || [];
     }
 
 
-   const getResumePdf = async (interviewReportId) => {
-    // setLoading(true);
-    try {
-        const response = await generateResumePdf({ interviewReportId });
+    const getResumePdf = async (interviewReportId) => {
+        // setLoading(true);
+        try {
+            const response = await generateResumePdf({ interviewReportId });
 
-        const url = window.URL.createObjectURL(response);
+            const url = window.URL.createObjectURL(response);
 
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `resume_${interviewReportId}.pdf`);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `resume_${interviewReportId}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
 
-        window.URL.revokeObjectURL(url); 
+            window.URL.revokeObjectURL(url);
 
-    } catch (error) {
-        console.error("Error downloading resume:", error.response?.data || error.message);
-    } finally {
-        // setLoading(false);
-    }
-};
+        } catch (error) {
+            console.error("Error downloading resume:", error.response?.data || error.message);
+        } finally {
+            // setLoading(false);
+        }
+    };
 
     useEffect(() => {
         if (interviewId) {
             getReportById(interviewId);
-        }else{
+        } else {
             getReports();
         }
     }, [interviewId])
 
     return {
         isGenerating,
-isFetchingReports,
-isFetchingSingle,
+        isFetchingReports,
+        isFetchingSingle,
         report,
         reports,
         generateReport,
         getReportById,
-        getReports, 
-        getResumePdf 
+        getReports,
+        getResumePdf
     }
 }
