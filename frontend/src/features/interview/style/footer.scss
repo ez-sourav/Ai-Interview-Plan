@@ -1,0 +1,43 @@
+@use "../style/home.scss" as *;
+
+.footer {
+  padding: 1.6rem 0.75rem;
+
+  text-align: center;
+  font-size: 0.8rem;
+
+  color: $text-muted;
+
+  border-top: 1px solid rgba($accent, 0.25);
+  backdrop-filter: blur(8px);
+
+  
+  &__logo {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: 0.3rem;
+     letter-spacing: 1px;
+
+    span {
+      color: $accent;
+      font-weight: 700;
+    }
+  }
+
+  &__text {
+    line-height: 1.5;
+     letter-spacing: 1px;
+  }
+
+  span {
+    color: $accent;
+  }
+
+  &__name {
+    cursor: default;
+  }
+}
+.name{
+    font-weight: 500;
+}

@@ -120,11 +120,17 @@ $severity-low: #22c55e;
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 99;
-  backdrop-filter: blur(4px);
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.55); // slightly darker for better contrast
+
+  backdrop-filter: blur(6px);       // stronger blur
+  -webkit-backdrop-filter: blur(6px); // Safari support
+
+  z-index: 998; // below sidebar (999), above content
+
+  transition: opacity 0.3s ease; // smooth appearance
 }
 
 // --- error style -----
@@ -253,6 +259,7 @@ $severity-low: #22c55e;
   border: 1px solid $border-color;
   border-radius: 1rem;
   justify-content: space-between;
+  
 }
 
 .interview-divider {
@@ -270,6 +277,7 @@ $severity-low: #22c55e;
   flex-direction: column;
   // justify-content: space-between;
   gap: 0.25rem;
+  padding-bottom: 20px;
 
   &__label {
     font-size: 0.7rem;
@@ -322,16 +330,15 @@ $severity-low: #22c55e;
 }
 
 .nav-content {
-  flex: 1; 
-  
+  flex: 1;
 }
 
 .nav-footer {
-  margin-top: auto;        
+  margin-top: auto;
   padding-top: 12px;
   padding-bottom: 10px;
   background: $bg-card;
-  border-top: 1px solid $border-color; 
+  border-top: 1px solid $border-color;
 }
 
 // ── Center Content ────────────────────────────────────────────────────────────
@@ -698,16 +705,16 @@ $severity-low: #22c55e;
 // Download Button
 
 .button.primary-button {
-  display: flex;        
-  width: 100%; 
+  display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
 
   gap: 8px;
-  height: 44px; 
-  padding: 0 16px; 
+  height: 44px;
+  padding: 0 16px;
   font-size: 0.9rem;
-padding: 0.65rem 0.75rem;
+  padding: 0.65rem 0.75rem;
   border-radius: 8px;
   white-space: nowrap; // prevents text break
 }
@@ -782,7 +789,7 @@ padding: 0.65rem 0.75rem;
 
   // Overlay for tablet
   .interview-sidebar-overlay {
-    z-index: 98;
+    z-index: 998;
 
     &.show-overlay {
       display: block !important;
@@ -882,7 +889,8 @@ padding: 0.65rem 0.75rem;
     position: fixed;
     top: 65px; // Properly account for navbar height
     left: 0;
-    min-height: calc(100vh - 65px);
+    min-height: calc(100vh - 65px); // fallback
+    min-height: calc(100dvh - 65px);
     width: 75%;
     max-width: 300px;
     background: $bg-card;
@@ -904,7 +912,7 @@ padding: 0.65rem 0.75rem;
 
   // Show overlay when drawer is open
   .interview-sidebar-overlay {
-    z-index: 98; // Below nav (999)
+    z-index: 998; // Below nav (999)
 
     &.show-overlay {
       display: block !important;
@@ -1052,6 +1060,7 @@ padding: 0.65rem 0.75rem;
   .interview-nav {
     top: 60px; // Slightly reduced for smaller screens
     height: calc(100vh - 60px);
+    height: calc(100dvh - 60px);
     width: 220px; // Slightly narrower on small screens
     padding: 0.75rem;
 
