@@ -1,6 +1,7 @@
 import { useAuth } from "../../auth/hooks/useAuth";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { useEffect } from "react";
 import "../../interview/style/navbar.scss";
 
 const Navbar = () => {
@@ -8,6 +9,18 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [mobileMenuOpen]);
 
   const isActive = (path) => location.pathname === path;
 
@@ -22,8 +35,12 @@ const Navbar = () => {
   };
 
   return (
+    <>
+    
     <div className="navbar-wrapper">
       <nav className="navbar">
+
+        
         {/* Left - Logo */}
         <div className="navbar__left">
           <h2 onClick={() => handleNavClick("/")} className="navbar__logo">
@@ -32,7 +49,7 @@ const Navbar = () => {
         </div>
 
         {/* Hamburger Menu */}
-        <button 
+        <button
           className={`navbar__hamburger ${mobileMenuOpen ? 'active' : ''}`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
@@ -47,13 +64,13 @@ const Navbar = () => {
           {user && (
             <>
               <nav className="navbar__nav">
-                <button 
+                <button
                   className={`navbar__link ${isActive('/') ? 'active' : ''}`}
                   onClick={() => handleNavClick("/")}
                 >
                   Create Plan
                 </button>
-                <button 
+                <button
                   className={`navbar__link ${isActive('/recent-plans') ? 'active' : ''}`}
                   onClick={() => handleNavClick("/recent-plans")}
                 >
@@ -70,13 +87,13 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <button 
-                onClick={onLogout} 
+              <button
+                onClick={onLogout}
                 disabled={loading}
                 className="navbar__logout"
                 title="Logout"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
                 <span>{loading ? "..." : "Logout"}</span>
               </button>
             </>
@@ -84,6 +101,13 @@ const Navbar = () => {
         </div>
       </nav>
     </div>
+          {mobileMenuOpen && (
+          <div
+            className="navbar__overlay"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+        )}
+</>    
   );
 };
 
