@@ -59,9 +59,8 @@ const RoadMapDay = ({ day }) => (
 const Interview = () => {
     const [activeNav, setActiveNav] = useState('technical')
     const navigate = useNavigate()
-    const [downloading, setDownloading] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const { report, isFetchingSingle, getResumePdf, error } = useInterview()
+    const { report, isFetchingSingle, error } = useInterview()
     const { interviewId } = useParams();
 
     useEffect(() => {
@@ -169,34 +168,6 @@ const Interview = () => {
         );
     }
 
-    // Download handler -------------------------
-    const handleDownload = async () => {
-        if (downloading) return;
-        setDownloading(true);
-        toast.dismiss();
-        const toastId = toast.loading("Generating  resume...");
-
-        try {
-
-            await getResumePdf(interviewId);
-
-            toast.success("Your resume download has started", {
-                id: toastId,
-            });
-        } catch (error) {
-            console.error(error);
-
-            const message =
-                error?.response?.status === 429
-                    ? "AI limit reached. Try again in 1–2 minutes."
-                    : "Failed to download resume. Please try again.";
-
-            toast.error(message, { id: toastId });
-        } finally {
-            setDownloading(false);
-        }
-    };
-
     const scoreColor =
         report.matchScore >= 80 ? 'score--high' :
             report.matchScore >= 60 ? 'score--mid' : 'score--low'
@@ -214,7 +185,7 @@ const Interview = () => {
                     zIndex: 99999,
                 }}
             />
-          
+
             <div className='interview-page'>
                 {/* Mobile Header */}
                 <div className='interview-mobile-header'>
@@ -259,24 +230,25 @@ const Interview = () => {
                         </div>
                         <div className="nav-footer">
                             <button
-                                onClick={handleDownload}
-                                className='button primary-button secondary-button'
-                                disabled={downloading}>
-                                {downloading ? (
-                                    <>
-                                        <span className="spinner" />
-                                        Downloading...
-                                    </>
-                                ) : (
-                                    <>
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                            <path d="M12 3v12" />
-                                            <path d="M7 10l5 5 5-5" />
-                                            <path d="M5 21h14" />
-                                        </svg>
-                                        Download Resume
-                                    </>
-                                )}
+                                onClick={() => navigate("/recent-plans")}
+                                className="button primary-button secondary-button"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    
+                                >
+                                    <path d="M19 12H5" />
+                                    <polyline points="12 19 5 12 12 5" />
+                                </svg>
+                                Back to Plans
                             </button>
                         </div>
                     </nav>
