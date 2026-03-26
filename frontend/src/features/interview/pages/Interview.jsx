@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import '../style/interview.scss'
 import { useInterview } from '../hooks/useInterview'
 import { useNavigate, useParams } from 'react-router-dom'
-import Navbar from '../../auth/components/Navbar'
 import { Toaster, toast } from 'react-hot-toast'
 
 const NAV_ITEMS = [
@@ -215,7 +214,7 @@ const Interview = () => {
                     zIndex: 99999,
                 }}
             />
-            <Navbar />
+          
             <div className='interview-page'>
                 {/* Mobile Header */}
                 <div className='interview-mobile-header'>

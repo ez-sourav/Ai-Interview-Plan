@@ -2,7 +2,6 @@ import { useRef, useState, useCallback } from "react";
 import { useInterview } from "../hooks/useInterview";
 import "../style/home.scss";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../auth/components/Navbar";
 import { Toaster, toast } from "react-hot-toast";
 
 const CheckIcon = () => (
@@ -170,7 +169,7 @@ export const Home = () => {
                     zIndex: 99999,
                 }}
             />
-            <Navbar />
+           
             <div className="home-page">
                 <header className="page-header">
                     <h1>
