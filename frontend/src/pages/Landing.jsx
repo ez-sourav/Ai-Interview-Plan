@@ -1,11 +1,12 @@
 import Navbar from "../features/auth/components/Navbar";
 import Footer from "../features/auth/components/Footer";
 import { LoadingScreen } from "../features/auth/components/LoadingScreen";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../features/auth/hooks/useAuth";
 
 const Landing = () => {
     const { user, isAuthChecked } = useAuth();
+    const navigate = useNavigate();
 
     if (!isAuthChecked) {
         return <LoadingScreen message="Loading..." subMessage="Please wait" />;
@@ -58,7 +59,7 @@ const Landing = () => {
 
                             <div style={{ marginBottom: "48px" }}>
                                 <button 
-                                    onClick={() => window.location.href = "/register"}
+                                    onClick={() => navigate("/register")}
                                     style={{
                                         padding: "16px 32px", borderRadius: "12px",
                                         background: "linear-gradient(135deg, #ffb689 0%, #ff7f11 100%)",
@@ -380,7 +381,7 @@ const Landing = () => {
                                     Get your custom preparation plan in seconds and walk into that room with unparalleled confidence.
                                 </p>
                                 <button 
-                                    onClick={() => window.location.href = "/register"}
+                                    onClick={() => navigate("/register")}
                                     style={{
                                         padding: "20px 48px", borderRadius: "14px",
                                         background: "linear-gradient(135deg, #ffb689 0%, #ff7f11 100%)",
