@@ -110,7 +110,34 @@ export const Login = () => {
             className="button primary-button"
             disabled={isSubmitting || loading}
           >
-            {isSubmitting || loading ? "Logging in..." : "Login"}
+            {isSubmitting || loading ? (
+              <>
+                <svg 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  className="spinner"
+                  style={{ 
+                    animation: "spin 1s linear infinite",
+                    marginRight: "8px"
+                  }}
+                >
+                  <circle 
+                    cx="12" 
+                    cy="12" 
+                    r="10" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    fill="none"
+                    strokeDasharray="31.416"
+                    strokeDashoffset="15.708"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                Logging in...
+              </>
+            ) : "Login"}
           </button>
         </form>
 
