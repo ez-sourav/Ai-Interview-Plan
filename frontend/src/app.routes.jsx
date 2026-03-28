@@ -9,8 +9,15 @@ import { PublicRoute } from "./features/auth/components/PublicRoute";
 import { NotFound } from "./pages/NotFound";
 
 import Layout from "./layout/Layout";
+import Landing from "./pages/Landing";
 
 export const router = createBrowserRouter([
+
+  {
+    path: "/welcome", 
+    element: <Landing />
+  },
+
   {
     path: '/',
     element: (
