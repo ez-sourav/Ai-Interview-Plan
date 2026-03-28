@@ -590,7 +590,7 @@ $severity-low: #22c55e;
 .match-score {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: self-start;
   gap: 0.6rem;
 
   &__label {
