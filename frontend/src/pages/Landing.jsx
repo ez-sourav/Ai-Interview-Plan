@@ -85,7 +85,7 @@ const Landing = () => {
                                 border: "1px solid rgba(88,66,54,0.15)"
                             }}>
                                 <img
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsrmUueXrvmSAWAvgVnvZp10qFRu1Y2WwKEH8PT0VlfPfIedWwgrm_sCuICiht-B1MipjXoyZcB5q-nl8YyvDu_trpkntxoalLK3CEiZIT2zlRvhdCKFwOoHgDkZi1shUcNh8CsW5kAoqLVkY3_zM_viqcKeeY7Kn-mL6D0BfFwvoFKxlfz2sHiLHYNlzLQ4QyDnXAxYGd2RZRM_Tdd-Et2p1WjDHNr1u4vaox_jS3hmgxT5yOk-tY8TvzEmTVlwnXVHFC3LljNHYI"
+                                    src="/image.png"
                                     alt="Dashboard preview"
                                     style={{ width: "100%", borderRadius: "12px", display: "block" }}
                                 />
