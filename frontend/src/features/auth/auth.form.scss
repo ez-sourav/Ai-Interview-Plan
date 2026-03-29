@@ -1,20 +1,25 @@
 @use "../interview/style/home.scss" as *;
 
-.auth-page  {
+/* ─────────────────────────────────────────
+   AUTH PAGE — fully responsive
+───────────────────────────────────────── */
+.auth-page {
   min-height: 100vh;
+  min-height: 100dvh; /* mobile: accounts for browser chrome */
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-//   padding: 1rem;
+  padding: 1rem;
 
-  background: $bg-page; 
+  background: $bg-page;
   color: $text-primary;
 
+  /* ── Card ── */
   .form-container {
     width: 100%;
     max-width: 420px;
-    background: $bg-card; 
+    background: $bg-card;
     padding: 2rem;
     border-radius: 1.25rem;
     border: 1px solid $border-color;
@@ -32,12 +37,14 @@
     }
   }
 
+  /* ── Form ── */
   form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
 
+  /* ── Field groups ── */
   .input-group {
     display: flex;
     flex-direction: column;
@@ -55,9 +62,13 @@
       outline: none;
       padding: 0.75rem 1rem;
       border-radius: 0.6rem;
-      font-size: 0.9rem;
+      font-size: 1rem; /* ≥16 px prevents iOS zoom-in on focus */
       color: $text-primary;
-      transition: all 0.2s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      width: 100%;
+      box-sizing: border-box;
+      -webkit-appearance: none; /* remove iOS default styling */
+      appearance: none;
 
       &::placeholder {
         color: $text-muted;
@@ -70,54 +81,80 @@
     }
   }
 
-  
-  .password-input-wrapper {
-    position: relative;
+  /* ── Password wrapper ── */
+  .password-group {
+    .password-input-wrapper {
+      position: relative;
 
-    input {
-      width: 100%;
-      padding-right: 2.5rem;
-    }
+      input {
+        padding-right: 2.75rem; /* room for the eye icon */
+      }
 
-    .eye-icon {
-      position: absolute;
-      top: 50%;
-      right: 0.75rem;
-      transform: translateY(-50%);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      color: $text-muted;
-      transition: color 0.2s;
+      .eye-icon {
+        position: absolute;
+        top: 50%;
+        right: 0.75rem;
+        transform: translateY(-50%);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        color: $text-muted;
+        transition: color 0.2s;
+        /* Bigger tap target on touch screens */
+        padding: 0.35rem;
+        margin: -0.35rem;
+        border-radius: 50%;
+        -webkit-tap-highlight-color: transparent;
 
-      &:hover {
-        color: $accent;
+        &:hover {
+          color: $accent;
+        }
+
+        &:active {
+          color: $accent;
+        }
       }
     }
   }
 
-  
+  /* ── Inline errors ── */
   .error {
     font-size: 0.75rem;
     color: #ef4444;
     margin-top: 0.2rem;
     display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.4;
   }
 
- 
+  /* ── Primary button ── */
   .button.primary-button {
     margin-top: 0.5rem;
-    padding: 0.75rem;
+    padding: 0.85rem; /* slightly taller for touch */
     border-radius: 0.6rem;
+    font-size: 0.95rem;
     font-weight: 600;
     background: linear-gradient(135deg, $accent, $accent-dark);
     color: white;
     border: none;
-    transition: all 0.2s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; /* no 300 ms delay on iOS */
 
     &:hover:not(:disabled) {
       transform: translateY(-1px);
-    //   box-shadow: 0 5px 20px rgba($accent, 0.3);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      opacity: 0.9;
     }
 
     &:disabled {
@@ -126,11 +163,16 @@
     }
   }
 
-  /* bottom text */
+  /* ── Bottom text & links ── */
   p {
     text-align: center;
     font-size: 0.85rem;
     color: $text-muted;
+
+    /* give space between the text and the link */
+    a {
+      margin-left: 0.3rem;
+    }
   }
 
   a {
@@ -144,40 +186,130 @@
   }
 }
 
-
+/* ─────────────────────────────────────────
+   Eye-icon fade-in
+───────────────────────────────────────── */
 .eye-icon {
   opacity: 0;
   animation: fadeIn 0.2s forwards;
 }
 
 @keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
+  to { opacity: 1; }
 }
 
+/* ─────────────────────────────────────────
+   Spinner
+───────────────────────────────────────── */
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 .spinner {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
   animation: spin 1s linear infinite;
+  /* Keep it centred inside the button */
+  display: block;
 }
 
-/* 📱 Responsive */
-@media (max-width: 480px) {
-  main {
-    padding: 0.3rem;
+/* ─────────────────────────────────────────
+   Responsive breakpoints
+───────────────────────────────────────── */
+
+/* Small phones (≤ 360 px) */
+@media (max-width: 360px) {
+  .auth-page {
+    padding: 0.75rem 0.5rem;
 
     .form-container {
-      padding: 1.5rem;
-      border-radius: 1rem;
+      padding: 1.25rem 1rem;
+      border-radius: 0.875rem;
+      gap: 1rem;
+
+      h1 {
+        font-size: 1.35rem;
+      }
     }
 
-    h1 {
-      font-size: 1.5rem;
+    .input-group input {
+      padding: 0.65rem 0.85rem;
     }
+
+    .button.primary-button {
+      padding: 0.75rem;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+/* Phones (≤ 480 px) */
+@media (max-width: 480px) {
+  .auth-page {
+    padding: 1rem 0.75rem;
+    /* Push card up a little so it clears the soft keyboard */
+    align-items: center;
+   
+
+    .form-container {
+      padding: 1.5rem 1.25rem;
+      border-radius: 1rem;
+      gap: 1rem;
+      /* Full-width with breathing room */
+      max-width: 100%;
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    form {
+      gap: 0.875rem;
+    }
+
+    .input-group label {
+      font-size: 0.8rem;
+    }
+
+    .input-group input {
+      padding: 0.8rem 0.9rem;
+    }
+
+    .password-group .password-input-wrapper input {
+      padding-right: 2.75rem;
+    }
+
+    .button.primary-button {
+      padding: 0.9rem;
+    }
+  }
+}
+
+/* Tablets in portrait (481 px – 768 px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .auth-page {
+    padding: 1.5rem;
+
+    .form-container {
+      max-width: 400px;
+    }
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    opacity: 0.6;
+  }
+
+  .eye-icon {
+    animation: none;
+    opacity: 1;
+  }
+
+  .button.primary-button {
+    transition: none;
   }
 }
