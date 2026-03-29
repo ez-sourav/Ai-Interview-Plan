@@ -113,14 +113,10 @@ export const Login = () => {
             {isSubmitting || loading ? (
               <>
                 <svg 
-                  width="16" 
-                  height="16" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
                   className="spinner"
                   style={{ 
                     animation: "spin 1s linear infinite",
-                    marginRight: "8px"
+                    
                   }}
                 >
                   <circle 
@@ -142,7 +138,17 @@ export const Login = () => {
         </form>
 
         <p>
-          Don't have an account? <Link to="/register">Register</Link>
+          Don't have an account? 
+          <Link 
+            to="/register" 
+            style={{ 
+              pointerEvents: isSubmitting || loading ? "none" : "auto",
+              opacity: isSubmitting || loading ? 0.5 : 1,
+              transition: "opacity 0.2s ease"
+            }}
+          >
+            Register
+          </Link>
         </p>
       </div>
     </main>
